@@ -91,6 +91,9 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
     STF4_Rtc.init(STF4_Rtc);
+    STF4_Rtc.get_year(STF4_Rtc);
+    STF4_Rtc.get_month(STF4_Rtc);
+    STF4_Rtc.get_day(STF4_Rtc);
 
   /* USER CODE END 2 */
 
