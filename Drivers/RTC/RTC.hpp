@@ -30,14 +30,6 @@ public:
     void get_hour(RTC_Object &self);
 };
 
-RTC_Object::RTC_Object(/* args */)
-{
-}
-
-RTC_Object::~RTC_Object()
-{
-}
-
 
 
 

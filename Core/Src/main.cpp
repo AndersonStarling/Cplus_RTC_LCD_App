@@ -17,8 +17,10 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
+#include <cstdint>
 #include "main.h"
 #include "gpio.h"
+#include "RTC.hpp"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -63,6 +65,7 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
+  RTC_Object STF4_Rtc;
 
   /* USER CODE BEGIN 1 */
 
@@ -87,6 +90,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
+    STF4_Rtc.init(STF4_Rtc);
 
   /* USER CODE END 2 */
 
