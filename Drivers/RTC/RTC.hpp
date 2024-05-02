@@ -23,11 +23,17 @@ public:
     void get_day(RTC_Object &self);
     void get_month(RTC_Object &self);
     void get_year(RTC_Object &self);
+    void set_day(RTC_Object &self, std::uint8_t day);
+    void set_month(RTC_Object &self, std::uint8_t month);
+    void set_year(RTC_Object &self, std::uint8_t year);
 
     /* Hour in day */
     void get_second(RTC_Object &self);
     void get_minute(RTC_Object &self);
     void get_hour(RTC_Object &self);
+    void set_second(RTC_Object &self, std::uint8_t second);
+    void set_minute(RTC_Object &self, std::uint8_t minute);
+    void set_hour(RTC_Object &self, std::uint8_t hour);
 };
 
 

@@ -95,6 +95,25 @@ int main(void)
     STF4_Rtc.get_month(STF4_Rtc);
     STF4_Rtc.get_day(STF4_Rtc);
 
+    STF4_Rtc.get_hour(STF4_Rtc);
+    STF4_Rtc.get_minute(STF4_Rtc);
+    STF4_Rtc.get_second(STF4_Rtc);
+
+    STF4_Rtc.set_day(STF4_Rtc, 7);
+    STF4_Rtc.set_month(STF4_Rtc, 9);
+    STF4_Rtc.set_year(STF4_Rtc, 23);
+
+    STF4_Rtc.get_year(STF4_Rtc);
+    STF4_Rtc.get_month(STF4_Rtc);
+    STF4_Rtc.get_day(STF4_Rtc);
+
+    STF4_Rtc.set_hour(STF4_Rtc, 0x22);
+    STF4_Rtc.set_minute(STF4_Rtc, 0x48);
+    STF4_Rtc.set_second(STF4_Rtc, 0x11);
+
+    STF4_Rtc.get_hour(STF4_Rtc);
+    STF4_Rtc.get_minute(STF4_Rtc);
+    STF4_Rtc.get_second(STF4_Rtc);
   /* USER CODE END 2 */
 
   /* Infinite loop */

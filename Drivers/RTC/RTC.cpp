@@ -138,3 +138,87 @@ void RTC_Object::get_hour(RTC_Object &self)
 
     self.hour = sTime.Hours;
 }
+
+void RTC_Object::set_day(RTC_Object &self, std::uint8_t day)
+{
+    HAL_StatusTypeDef rtc_status;
+    RTC_DateTypeDef sDate = {0};
+
+    self.day = day;
+    sDate.Date  = self.day;
+    sDate.Month = self.month;
+    sDate.Year  = self.year;
+
+    rtc_status = HAL_RTC_SetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
+    while(rtc_status != HAL_OK);
+}
+
+void RTC_Object::set_month(RTC_Object &self, std::uint8_t month)
+{
+    HAL_StatusTypeDef rtc_status;
+    RTC_DateTypeDef sDate = {0};
+
+    self.month = month;
+    sDate.Date  = self.day;
+    sDate.Month = self.month;
+    sDate.Year  = self.year;
+
+    rtc_status = HAL_RTC_SetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
+    while(rtc_status != HAL_OK);
+}
+
+void RTC_Object::set_year(RTC_Object &self, std::uint8_t year)
+{
+    HAL_StatusTypeDef rtc_status;
+    RTC_DateTypeDef sDate = {0};
+
+    self.year = year;
+    sDate.Date  = self.day;
+    sDate.Month = self.month;
+    sDate.Year  = self.year;
+
+    rtc_status = HAL_RTC_SetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
+    while(rtc_status != HAL_OK);
+}
+
+void RTC_Object::set_second(RTC_Object &self, std::uint8_t second)
+{
+    HAL_StatusTypeDef rtc_status;
+    RTC_TimeTypeDef sTime;
+
+    self.second = second;
+    sTime.Seconds = self.second;
+    sTime.Minutes = self.minute;
+    sTime.Hours   = self.hour;
+
+    rtc_status = HAL_RTC_SetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
+    while(rtc_status != HAL_OK);
+}
+
+void RTC_Object::set_minute(RTC_Object &self, std::uint8_t minute)
+{
+    HAL_StatusTypeDef rtc_status;
+    RTC_TimeTypeDef sTime;
+
+    self.minute = minute;
+    sTime.Seconds = self.second;
+    sTime.Minutes = self.minute;
+    sTime.Hours   = self.hour;
+
+    rtc_status = HAL_RTC_SetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
+    while(rtc_status != HAL_OK);
+}
+
+void RTC_Object::set_hour(RTC_Object &self, std::uint8_t hour)
+{
+    HAL_StatusTypeDef rtc_status;
+    RTC_TimeTypeDef sTime;
+
+    self.hour = hour;
+    sTime.Seconds = self.second;
+    sTime.Minutes = self.minute;
+    sTime.Hours   = self.hour;
+
+    rtc_status = HAL_RTC_SetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
+    while(rtc_status != HAL_OK);
+}
