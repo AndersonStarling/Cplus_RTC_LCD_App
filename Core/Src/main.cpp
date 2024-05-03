@@ -17,13 +17,13 @@
   */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
-#include <cstdint>
 #include "main.h"
 #include "gpio.h"
-#include "RTC.hpp"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <cstdint>
+#include "RTC.hpp"
 
 /* USER CODE END Includes */
 
@@ -65,10 +65,9 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
-  RTC_Object STF4_Rtc;
 
   /* USER CODE BEGIN 1 */
-
+    RTC_Object STF4_Rtc;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -90,6 +89,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
+
     STF4_Rtc.init(STF4_Rtc);
     STF4_Rtc.get_year(STF4_Rtc);
     STF4_Rtc.get_month(STF4_Rtc);
@@ -107,9 +107,9 @@ int main(void)
     STF4_Rtc.get_month(STF4_Rtc);
     STF4_Rtc.get_day(STF4_Rtc);
 
-    STF4_Rtc.set_hour(STF4_Rtc, 0x22);
-    STF4_Rtc.set_minute(STF4_Rtc, 0x48);
-    STF4_Rtc.set_second(STF4_Rtc, 0x11);
+    STF4_Rtc.set_hour(STF4_Rtc, 22);
+    STF4_Rtc.set_minute(STF4_Rtc, 48);
+    STF4_Rtc.set_second(STF4_Rtc, 11);
 
     STF4_Rtc.get_hour(STF4_Rtc);
     STF4_Rtc.get_minute(STF4_Rtc);
