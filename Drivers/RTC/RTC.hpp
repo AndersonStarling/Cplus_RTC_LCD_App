@@ -12,6 +12,7 @@ private:
     std::uint8_t hour;
 
     RTC_HandleTypeDef hrtc;
+    HAL_StatusTypeDef rtc_status;
 
 public:
     RTC_Object(/* args */);

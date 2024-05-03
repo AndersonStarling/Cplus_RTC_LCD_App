@@ -17,7 +17,6 @@ void RTC_Object::init(RTC_Object &self)
 {
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
-    HAL_StatusTypeDef rtc_status;
 
     /** Initialize RTC Only */
     self.hrtc.Instance = RTC;
@@ -27,69 +26,45 @@ void RTC_Object::init(RTC_Object &self)
     self.hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
     self.hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
     self.hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
-    rtc_status = HAL_RTC_Init(&self.hrtc);
-    while(rtc_status != HAL_OK);
-  
-    /** Initialize RTC and set the Time and Date */
-    sTime.Hours = 0x20;
-    sTime.Minutes = 0x25;
-    sTime.Seconds = 0x18;
-    sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
-    sTime.StoreOperation = RTC_STOREOPERATION_RESET;
-    rtc_status = HAL_RTC_SetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
-    while(rtc_status != HAL_OK);
-  
-    sDate.WeekDay = RTC_WEEKDAY_THURSDAY;
-    sDate.Month = RTC_MONTH_MAY;
-    sDate.Date = 0x2;
-    sDate.Year = 0x0;
-    rtc_status = HAL_RTC_SetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
-    while(rtc_status != HAL_OK);
-
+    self.rtc_status = HAL_RTC_Init(&self.hrtc);
 }
 
 /* Day in year */
 void RTC_Object::get_day(RTC_Object &self)
 {
-    HAL_StatusTypeDef rtc_status;
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
 
     while(HAL_OK != HAL_RTC_WaitForSynchro(&self.hrtc));
 
     HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
-    rtc_status = HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
-    while(rtc_status != HAL_OK);
+    self.rtc_status = HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 
     self.day = sDate.Date;
 }
 
 void RTC_Object::get_month(RTC_Object &self)
 {
-    HAL_StatusTypeDef rtc_status;
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
 
     while(HAL_OK != HAL_RTC_WaitForSynchro(&self.hrtc));
 
     HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
-    rtc_status = HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
-    while(rtc_status != HAL_OK);
+    self.rtc_status = HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 
     self.month = sDate.Month;
 }
 
 void RTC_Object::get_year(RTC_Object &self)
 {
-    HAL_StatusTypeDef rtc_status;
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
 
     while(HAL_OK != HAL_RTC_WaitForSynchro(&self.hrtc));
 
     HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
-    rtc_status = HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
-    while(rtc_status != HAL_OK);
+    self.rtc_status = HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 
     self.year = sDate.Year;
 }
@@ -97,15 +72,13 @@ void RTC_Object::get_year(RTC_Object &self)
 /* Hour in day */
 void RTC_Object::get_second(RTC_Object &self)
 {
-    HAL_StatusTypeDef rtc_status;
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
 
     while(HAL_OK != HAL_RTC_WaitForSynchro(&self.hrtc));
 
-    rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
+    self.rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
     HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
-    while(rtc_status != HAL_OK);
 
     self.second = sTime.Seconds;
 
@@ -113,11 +86,10 @@ void RTC_Object::get_second(RTC_Object &self)
 
 void RTC_Object::get_minute(RTC_Object &self)
 {
-    HAL_StatusTypeDef rtc_status;
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
 
-    rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
+    self.rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
     HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
     while(rtc_status != HAL_OK);
 
@@ -126,13 +98,12 @@ void RTC_Object::get_minute(RTC_Object &self)
 
 void RTC_Object::get_hour(RTC_Object &self)
 {
-    HAL_StatusTypeDef rtc_status;
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
 
     while(HAL_OK != HAL_RTC_WaitForSynchro(&self.hrtc));
 
-    rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
+    self.rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
     HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
     while(rtc_status != HAL_OK);
 
@@ -149,8 +120,7 @@ void RTC_Object::set_day(RTC_Object &self, std::uint8_t day)
     sDate.Month = self.month;
     sDate.Year  = self.year;
 
-    rtc_status = HAL_RTC_SetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
-    while(rtc_status != HAL_OK);
+    self.rtc_status = HAL_RTC_SetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 }
 
 void RTC_Object::set_month(RTC_Object &self, std::uint8_t month)
@@ -163,8 +133,7 @@ void RTC_Object::set_month(RTC_Object &self, std::uint8_t month)
     sDate.Month = self.month;
     sDate.Year  = self.year;
 
-    rtc_status = HAL_RTC_SetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
-    while(rtc_status != HAL_OK);
+    self.rtc_status = HAL_RTC_SetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 }
 
 void RTC_Object::set_year(RTC_Object &self, std::uint8_t year)
@@ -177,8 +146,7 @@ void RTC_Object::set_year(RTC_Object &self, std::uint8_t year)
     sDate.Month = self.month;
     sDate.Year  = self.year;
 
-    rtc_status = HAL_RTC_SetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
-    while(rtc_status != HAL_OK);
+    self.rtc_status = HAL_RTC_SetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 }
 
 void RTC_Object::set_second(RTC_Object &self, std::uint8_t second)
@@ -191,8 +159,7 @@ void RTC_Object::set_second(RTC_Object &self, std::uint8_t second)
     sTime.Minutes = self.minute;
     sTime.Hours   = self.hour;
 
-    rtc_status = HAL_RTC_SetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
-    while(rtc_status != HAL_OK);
+    self.rtc_status = HAL_RTC_SetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
 }
 
 void RTC_Object::set_minute(RTC_Object &self, std::uint8_t minute)
@@ -205,8 +172,7 @@ void RTC_Object::set_minute(RTC_Object &self, std::uint8_t minute)
     sTime.Minutes = self.minute;
     sTime.Hours   = self.hour;
 
-    rtc_status = HAL_RTC_SetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
-    while(rtc_status != HAL_OK);
+    self.rtc_status = HAL_RTC_SetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
 }
 
 void RTC_Object::set_hour(RTC_Object &self, std::uint8_t hour)
@@ -219,6 +185,5 @@ void RTC_Object::set_hour(RTC_Object &self, std::uint8_t hour)
     sTime.Minutes = self.minute;
     sTime.Hours   = self.hour;
 
-    rtc_status = HAL_RTC_SetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
-    while(rtc_status != HAL_OK);
+    self.rtc_status = HAL_RTC_SetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
 }
