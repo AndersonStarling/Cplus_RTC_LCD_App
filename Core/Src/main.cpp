@@ -92,34 +92,34 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_I2C1_Init();
+  // MX_GPIO_Init();
+  // MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
 
-    STF4_Rtc.init(STF4_Rtc);
-    STF4_Rtc.get_year(STF4_Rtc);
-    STF4_Rtc.get_month(STF4_Rtc);
-    STF4_Rtc.get_day(STF4_Rtc);
+    // STF4_Rtc.init(STF4_Rtc);
+    // STF4_Rtc.get_year(STF4_Rtc);
+    // STF4_Rtc.get_month(STF4_Rtc);
+    // STF4_Rtc.get_day(STF4_Rtc);
 
-    STF4_Rtc.get_hour(STF4_Rtc);
-    STF4_Rtc.get_minute(STF4_Rtc);
-    STF4_Rtc.get_second(STF4_Rtc);
+    // STF4_Rtc.get_hour(STF4_Rtc);
+    // STF4_Rtc.get_minute(STF4_Rtc);
+    // STF4_Rtc.get_second(STF4_Rtc);
 
-    STF4_Rtc.set_day(STF4_Rtc, 7);
-    STF4_Rtc.set_month(STF4_Rtc, 9);
-    STF4_Rtc.set_year(STF4_Rtc, 23);
+    // STF4_Rtc.set_day(STF4_Rtc, 7);
+    // STF4_Rtc.set_month(STF4_Rtc, 9);
+    // STF4_Rtc.set_year(STF4_Rtc, 23);
 
-    STF4_Rtc.get_year(STF4_Rtc);
-    STF4_Rtc.get_month(STF4_Rtc);
-    STF4_Rtc.get_day(STF4_Rtc);
+    // STF4_Rtc.get_year(STF4_Rtc);
+    // STF4_Rtc.get_month(STF4_Rtc);
+    // STF4_Rtc.get_day(STF4_Rtc);
 
-    STF4_Rtc.set_hour(STF4_Rtc, 22);
-    STF4_Rtc.set_minute(STF4_Rtc, 48);
-    STF4_Rtc.set_second(STF4_Rtc, 11);
+    // STF4_Rtc.set_hour(STF4_Rtc, 22);
+    // STF4_Rtc.set_minute(STF4_Rtc, 48);
+    // STF4_Rtc.set_second(STF4_Rtc, 11);
 
-    STF4_Rtc.get_hour(STF4_Rtc);
-    STF4_Rtc.get_minute(STF4_Rtc);
-    STF4_Rtc.get_second(STF4_Rtc);
+    // STF4_Rtc.get_hour(STF4_Rtc);
+    // STF4_Rtc.get_minute(STF4_Rtc);
+    // STF4_Rtc.get_second(STF4_Rtc);
 
     LCD_16x2.init(LCD_16x2);
     LCD_16x2.print_string(LCD_16x2, "Hello");

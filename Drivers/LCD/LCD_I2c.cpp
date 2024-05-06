@@ -2,6 +2,7 @@
 #include <cstring>
 #include <string>
 #include "stm32f4xx_hal.h"
+#include "stm32f4xx_hal_gpio.h"
 #include "stm32f4xx_hal_i2c.h"
 #include "LCD_I2c.hpp"
 
@@ -89,6 +90,28 @@ LCD_Object::~LCD_Object()
 
 void LCD_Object::init(LCD_Object &self)
 {
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+    /* Init Object data */
+    self.i2c_status = HAL_ERROR;
+    self.lcd_i2c_address = 0x27;
+    self.lcd_status = false;
+
+    /* Init Gpio as I2c functionality */
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+    /**I2C1 GPIO Configuration
+    PB6     ------> I2C1_SCL
+    PB7     ------> I2C1_SDA
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_6|GPIO_PIN_7;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+    __HAL_RCC_I2C1_CLK_ENABLE();
+
     /* Init I2c */
     self.hi2c1.Instance = I2C1;
     self.hi2c1.Init.ClockSpeed = 100000;
@@ -99,27 +122,27 @@ void LCD_Object::init(LCD_Object &self)
     self.hi2c1.Init.OwnAddress2 = 0;
     self.hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
     self.hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-    self.i2c_status = HAL_I2C_Init(&self.hi2c1);
+     self.i2c_status = HAL_I2C_Init(&self.hi2c1);
 
     /* Init LCD */
     HAL_Delay(50);
-    self.lcd_status &= LCD_Object::send_cmd(self, 0x30);
+    self.lcd_status = LCD_Object::send_cmd(self, 0x30);
     HAL_Delay(5);
-    self.lcd_status &= LCD_Object::send_cmd(self, 0x30);
+    self.lcd_status = LCD_Object::send_cmd(self, 0x30);
     HAL_Delay(1);
-    self.lcd_status &= LCD_Object::send_cmd(self, 0x30);
+    self.lcd_status = LCD_Object::send_cmd(self, 0x30);
     HAL_Delay(10);
-    self.lcd_status &= LCD_Object::send_cmd(self, 0x20);
+    self.lcd_status = LCD_Object::send_cmd(self, 0x20);
     HAL_Delay(10);
-    self.lcd_status &= LCD_Object::send_cmd(self, 0x28);
+    self.lcd_status = LCD_Object::send_cmd(self, 0x28);
     HAL_Delay(1);
-    self.lcd_status &= LCD_Object::send_cmd(self, 0x08);
+    self.lcd_status = LCD_Object::send_cmd(self, 0x08);
     HAL_Delay(1);
-    self.lcd_status &= LCD_Object::send_cmd(self, 0x01);
+    self.lcd_status = LCD_Object::send_cmd(self, 0x01);
     HAL_Delay(2);
-    self.lcd_status &= LCD_Object::send_cmd(self, 0x06);
+    self.lcd_status = LCD_Object::send_cmd(self, 0x06);
     HAL_Delay(1);
-    self.lcd_status &= LCD_Object::send_cmd(self, 0x0C);
+    self.lcd_status = LCD_Object::send_cmd(self, 0x0C);
 
 }
 
