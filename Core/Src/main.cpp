@@ -24,7 +24,9 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <cstdint>
+#include <string>
 #include "RTC.hpp"
+#include "LCD_I2c.hpp"
 
 /* USER CODE END Includes */
 
@@ -69,6 +71,8 @@ int main(void)
 
   /* USER CODE BEGIN 1 */
     RTC_Object STF4_Rtc;
+    LCD_Object LCD_16x2;
+
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -116,6 +120,9 @@ int main(void)
     STF4_Rtc.get_hour(STF4_Rtc);
     STF4_Rtc.get_minute(STF4_Rtc);
     STF4_Rtc.get_second(STF4_Rtc);
+
+    LCD_16x2.init(LCD_16x2);
+    LCD_16x2.print_string(LCD_16x2, "Hello");
   /* USER CODE END 2 */
 
   /* Infinite loop */

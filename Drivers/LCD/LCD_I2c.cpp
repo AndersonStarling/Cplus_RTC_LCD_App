@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <cstring>
 #include <string>
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_i2c.h"
@@ -75,6 +76,17 @@ bool LCD_Object::send_data(LCD_Object &self, std::uint8_t data)
 }
 
 /* Public method */
+LCD_Object::LCD_Object()
+{
+
+}
+
+LCD_Object::~LCD_Object()
+{
+
+}
+
+
 void LCD_Object::init(LCD_Object &self)
 {
     /* Init I2c */
@@ -111,13 +123,13 @@ void LCD_Object::init(LCD_Object &self)
 
 }
 
-void LCD_Object::print_string(LCD_Object &self, std::string &string)
+void LCD_Object::print_string(LCD_Object &self, std::string string)
 {
     std::uint32_t index = 0;
 
-    for(index = 0; index < strlen(&string[0]); index ++)
+    for(index = 0; index < string.length(); index ++)
     {
-        self.lcd_status &= LCD_Object::send_data(self, string[index]);
+        self.lcd_status &= LCD_Object::send_data(self, (std::uint8_t)string[index]);
     }
 }
 

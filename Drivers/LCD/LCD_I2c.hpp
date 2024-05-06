@@ -13,7 +13,7 @@ class LCD_Object
         LCD_Object();
         ~LCD_Object();
         void init(LCD_Object &self);
-        void print_string(LCD_Object &self, std::string &string);
+        void print_string(LCD_Object &self, std::string string);
 };
 
 
