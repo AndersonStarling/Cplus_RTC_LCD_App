@@ -30,7 +30,7 @@ void RTC_Object::init(RTC_Object &self)
 }
 
 /* Day in year */
-void RTC_Object::get_day(RTC_Object &self)
+std::uint8_t RTC_Object::get_day(RTC_Object &self)
 {
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
@@ -41,9 +41,11 @@ void RTC_Object::get_day(RTC_Object &self)
     self.rtc_status = HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 
     self.day = sDate.Date;
+
+    return self.day;
 }
 
-void RTC_Object::get_month(RTC_Object &self)
+std::uint8_t RTC_Object::get_month(RTC_Object &self)
 {
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
@@ -54,9 +56,11 @@ void RTC_Object::get_month(RTC_Object &self)
     self.rtc_status = HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 
     self.month = sDate.Month;
+
+    return self.month;
 }
 
-void RTC_Object::get_year(RTC_Object &self)
+std::uint8_t RTC_Object::get_year(RTC_Object &self)
 {
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
@@ -67,10 +71,12 @@ void RTC_Object::get_year(RTC_Object &self)
     self.rtc_status = HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 
     self.year = sDate.Year;
+
+    return self.year;
 }
 
 /* Hour in day */
-void RTC_Object::get_second(RTC_Object &self)
+std::uint8_t RTC_Object::get_second(RTC_Object &self)
 {
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
@@ -84,7 +90,7 @@ void RTC_Object::get_second(RTC_Object &self)
 
 }
 
-void RTC_Object::get_minute(RTC_Object &self)
+std::uint8_t RTC_Object::get_minute(RTC_Object &self)
 {
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
@@ -96,7 +102,7 @@ void RTC_Object::get_minute(RTC_Object &self)
     self.minute = sTime.Minutes;
 }
 
-void RTC_Object::get_hour(RTC_Object &self)
+std::uint8_t RTC_Object::get_hour(RTC_Object &self)
 {
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};

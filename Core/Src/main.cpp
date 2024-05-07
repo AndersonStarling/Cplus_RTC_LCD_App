@@ -67,9 +67,8 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
-
   /* USER CODE BEGIN 1 */
-    RTC_Object STF4_Rtc;
+    RTC_Object Rtc;
     LCD_Object LCD_16x2
     {
         HAL_ERROR,
@@ -99,33 +98,20 @@ int main(void)
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
 
-    // STF4_Rtc.init(STF4_Rtc);
-    // STF4_Rtc.get_year(STF4_Rtc);
-    // STF4_Rtc.get_month(STF4_Rtc);
-    // STF4_Rtc.get_day(STF4_Rtc);
-
-    // STF4_Rtc.get_hour(STF4_Rtc);
-    // STF4_Rtc.get_minute(STF4_Rtc);
-    // STF4_Rtc.get_second(STF4_Rtc);
-
-    // STF4_Rtc.set_day(STF4_Rtc, 7);
-    // STF4_Rtc.set_month(STF4_Rtc, 9);
-    // STF4_Rtc.set_year(STF4_Rtc, 23);
-
-    // STF4_Rtc.get_year(STF4_Rtc);
-    // STF4_Rtc.get_month(STF4_Rtc);
-    // STF4_Rtc.get_day(STF4_Rtc);
-
-    // STF4_Rtc.set_hour(STF4_Rtc, 22);
-    // STF4_Rtc.set_minute(STF4_Rtc, 48);
-    // STF4_Rtc.set_second(STF4_Rtc, 11);
-
-    // STF4_Rtc.get_hour(STF4_Rtc);
-    // STF4_Rtc.get_minute(STF4_Rtc);
-    // STF4_Rtc.get_second(STF4_Rtc);
-
+    Rtc.init(Rtc);
     LCD_16x2.init(LCD_16x2);
-    LCD_16x2.print_string(LCD_16x2, "Hello");
+
+    /* Set dd/mm/yy */
+    Rtc.set_day(Rtc, 7);
+    Rtc.set_month(Rtc, 5);
+    Rtc.set_year(Rtc, 23);
+    Rtc.set_hour(Rtc, 8);
+    Rtc.set_minute(Rtc, 0);
+    Rtc.set_minute(Rtc, 0);
+
+    LCD_16x2.print_string(LCD_16x2, (std::to_string(Rtc.get_day(Rtc)) + "/" + std::to_string(Rtc.get_month(Rtc)) + "/" + std::to_string(Rtc.get_year(Rtc))));
+    LCD_16x2.print_string(LCD_16x2, "  ");
+    LCD_16x2.print_string(LCD_16x2, (std::to_string(Rtc.get_hour(Rtc)) + "/" + std::to_string(Rtc.get_minute(Rtc)) + "/" + std::to_string(Rtc.get_second(Rtc))));
   /* USER CODE END 2 */
 
   /* Infinite loop */
