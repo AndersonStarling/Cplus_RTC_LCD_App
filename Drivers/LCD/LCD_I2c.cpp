@@ -6,23 +6,28 @@
 #include "stm32f4xx_hal_i2c.h"
 #include "LCD_I2c.hpp"
 
-#define P0 (1u << 0)
-#define P1 (1u << 1)
-#define P2 (1u << 2)
-#define P3 (1u << 3)
-#define P4 (1u << 4)
-#define P5 (1u << 5)
-#define P6 (1u << 6)
-#define P7 (1u << 7)
+/* LCD namespace */
+namespace LCD
+{
+    /* LCD Pin */
+    std::uint8_t constexpr PIN_0 = (1u << 0);
+    std::uint8_t constexpr PIN_1 = (1u << 1);
+    std::uint8_t constexpr PIN_2 = (1u << 2);
+    std::uint8_t constexpr PIN_3 = (1u << 3);
+    std::uint8_t constexpr PIN_4 = (1u << 4);
+    std::uint8_t constexpr PIN_5 = (1u << 5);
+    std::uint8_t constexpr PIN_6 = (1u << 6);
+    std::uint8_t constexpr PIN_7 = (1u << 7);
 
-#define LCD_I2C_RS  P0
-#define LCD_I2C_RW  P1
-#define LCD_I2C_E   P2
-#define LCD_I2C_BLK P3
-#define LCD_I2C_D4  P4
-#define LCD_I2C_D5  P5
-#define LCD_I2C_D6  P6
-#define LCD_I2C_D7  P7
+    std::uint8_t constexpr RS  = PIN_0;
+    std::uint8_t constexpr RW  = PIN_1;
+    std::uint8_t constexpr E   = PIN_2;
+    std::uint8_t constexpr BLK = PIN_3;
+    std::uint8_t constexpr D4  = PIN_4;
+    std::uint8_t constexpr D5  = PIN_5;
+    std::uint8_t constexpr D6  = PIN_6;
+    std::uint8_t constexpr D7  = PIN_7;
+}
 
 /* Private method */
 bool LCD_Object::send_cmd(LCD_Object &self, std::uint8_t command)
@@ -32,19 +37,19 @@ bool LCD_Object::send_cmd(LCD_Object &self, std::uint8_t command)
     std::uint8_t data_send[4] = {0};
 
     /* extract 4 upper bit from command */
-    data_upper = ((command & 0xF0) & (~LCD_I2C_RW));
+    data_upper = ((command & 0xF0) & (~LCD::RW));
     /*extract 4 lower bit from command */
-    data_lower = (((command << 4) & 0xF0) & (~LCD_I2C_RW));
+    data_lower = (((command << 4) & 0xF0) & (~LCD::RW));
 
     /* Send 4 upper bit command to lcd */
-    data_send[0] = data_upper | (LCD_I2C_BLK | LCD_I2C_E);
+    data_send[0] = data_upper | (LCD::BLK | LCD::E);
     /* Create dummy frame because LCD need delay between two intructions */
-    data_send[1] = data_upper | (LCD_I2C_BLK);
+    data_send[1] = data_upper | (LCD::BLK);
 
     /* Send 4 upper bit command to lcd */
-    data_send[2] = data_lower | (LCD_I2C_BLK | LCD_I2C_E);
+    data_send[2] = data_lower | (LCD::BLK | LCD::E);
     /* Create dummy frame because LCD need delay between two intructions */
-    data_send[3] = data_lower | (LCD_I2C_BLK);
+    data_send[3] = data_lower | (LCD::BLK);
 
     self.i2c_status = HAL_I2C_Master_Transmit(&self.hi2c1, ((self.lcd_i2c_address << 1) | 1), &data_send[0], 4, 0xffff);
 
@@ -58,19 +63,19 @@ bool LCD_Object::send_data(LCD_Object &self, std::uint8_t data)
     std::uint8_t data_send[4] = {0};
 
     /* extract 4 upper bit from command */
-    data_upper = ((data & 0xF0) & (~LCD_I2C_RW));
+    data_upper = ((data & 0xF0) & (~LCD::RW));
     /*extract 4 lower bit from command */
-    data_lower = (((data << 4) & 0xF0) & (~LCD_I2C_RW));
+    data_lower = (((data << 4) & 0xF0) & (~LCD::RW));
 
     /* Send 4 upper bit command to lcd */
-    data_send[0] = data_upper | (LCD_I2C_BLK | LCD_I2C_E | LCD_I2C_RS);
+    data_send[0] = data_upper | (LCD::BLK | LCD::E | LCD::RS);
     /* Create dummy frame because LCD need delay between two intructions */
-    data_send[1] = data_upper | (LCD_I2C_BLK | LCD_I2C_RS);
+    data_send[1] = data_upper | (LCD::BLK | LCD::RS);
 
     /* Send 4 upper bit command to lcd */
-    data_send[2] = data_lower | (LCD_I2C_BLK | LCD_I2C_E | LCD_I2C_RS);
+    data_send[2] = data_lower | (LCD::BLK | LCD::E | LCD::RS);
     /* Create dummy frame because LCD need delay between two intructions */
-    data_send[3] = data_lower | (LCD_I2C_BLK | LCD_I2C_RS);
+    data_send[3] = data_lower | (LCD::BLK | LCD::RS);
 
     self.i2c_status = HAL_I2C_Master_Transmit(&self.hi2c1, ((self.lcd_i2c_address << 1) | 1), &data_send[0], 4, 0xffff);
 
