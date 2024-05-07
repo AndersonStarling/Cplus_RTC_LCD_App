@@ -23,6 +23,7 @@
 /* USER CODE BEGIN Includes */
 #include <cstdint>
 #include <string>
+#include "i2c.h"
 #include "RTC.hpp"
 #include "LCD_I2c.hpp"
 
@@ -69,7 +70,13 @@ int main(void)
 
   /* USER CODE BEGIN 1 */
     RTC_Object STF4_Rtc;
-    LCD_Object LCD_16x2;
+    LCD_Object LCD_16x2
+    {
+        HAL_ERROR,
+        false,
+        hi2c1,
+        0x27
+    };
 
   /* USER CODE END 1 */
 
