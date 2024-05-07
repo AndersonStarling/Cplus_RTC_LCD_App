@@ -46,7 +46,7 @@ bool LCD_Object::send_cmd(LCD_Object &self, std::uint8_t command)
     /* Create dummy frame because LCD need delay between two intructions */
     data_send[3] = data_lower | (LCD_I2C_BLK);
 
-    self.i2c_status = HAL_I2C_Master_Transmit(&self.hi2c1, self.lcd_i2c_address, &data_send[0], 4, 0xffff);
+    self.i2c_status = HAL_I2C_Master_Transmit(&self.hi2c1, ((self.lcd_i2c_address << 1) | 1), &data_send[0], 4, 0xffff);
 
     return (self.i2c_status == HAL_OK);
 }
@@ -56,7 +56,6 @@ bool LCD_Object::send_data(LCD_Object &self, std::uint8_t data)
     std::uint8_t data_upper = 0;
     std::uint8_t data_lower = 0;
     std::uint8_t data_send[4] = {0};
-    std::uint8_t ret = -1;
 
     /* extract 4 upper bit from command */
     data_upper = ((data & 0xF0) & (~LCD_I2C_RW));
@@ -73,7 +72,9 @@ bool LCD_Object::send_data(LCD_Object &self, std::uint8_t data)
     /* Create dummy frame because LCD need delay between two intructions */
     data_send[3] = data_lower | (LCD_I2C_BLK | LCD_I2C_RS);
 
-    self.i2c_status = HAL_I2C_Master_Transmit(&self.hi2c1, self.lcd_i2c_address, &data_send[0], 4, 0xffff);
+    self.i2c_status = HAL_I2C_Master_Transmit(&self.hi2c1, ((self.lcd_i2c_address << 1) | 1), &data_send[0], 4, 0xffff);
+
+    return (self.i2c_status == HAL_OK);
 }
 
 /* Public method */
@@ -152,7 +153,7 @@ void LCD_Object::print_string(LCD_Object &self, std::string string)
 
     for(index = 0; index < string.length(); index ++)
     {
-        self.lcd_status &= LCD_Object::send_data(self, (std::uint8_t)string[index]);
+        self.lcd_status = LCD_Object::send_data(self, (std::uint8_t)string[index]);
     }
 }
 
