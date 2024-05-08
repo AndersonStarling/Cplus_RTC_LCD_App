@@ -153,6 +153,7 @@ void RTC_Object::set_day(RTC_Object &self, std::uint8_t day)
     sDate.Date  = self.day;
     sDate.Month = self.month;
     sDate.Year  = self.year;
+    sDate.WeekDay = RTC_WEEKDAY_THURSDAY;
 
     self.rtc_status = HAL_RTC_SetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 }
@@ -166,6 +167,7 @@ void RTC_Object::set_month(RTC_Object &self, std::uint8_t month)
     sDate.Date  = self.day;
     sDate.Month = self.month;
     sDate.Year  = self.year;
+    sDate.WeekDay = RTC_WEEKDAY_THURSDAY;
 
     self.rtc_status = HAL_RTC_SetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 }
@@ -179,6 +181,7 @@ void RTC_Object::set_year(RTC_Object &self, std::uint8_t year)
     sDate.Date  = self.day;
     sDate.Month = self.month;
     sDate.Year  = self.year;
+    sDate.WeekDay = RTC_WEEKDAY_THURSDAY;
 
     self.rtc_status = HAL_RTC_SetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 }
@@ -192,6 +195,8 @@ void RTC_Object::set_second(RTC_Object &self, std::uint8_t second)
     sTime.Seconds = self.second;
     sTime.Minutes = self.minute;
     sTime.Hours   = self.hour;
+    sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+    sTime.StoreOperation = RTC_STOREOPERATION_RESET;
 
     self.rtc_status = HAL_RTC_SetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
 }
@@ -205,6 +210,8 @@ void RTC_Object::set_minute(RTC_Object &self, std::uint8_t minute)
     sTime.Seconds = self.second;
     sTime.Minutes = self.minute;
     sTime.Hours   = self.hour;
+    sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+    sTime.StoreOperation = RTC_STOREOPERATION_RESET;
 
     self.rtc_status = HAL_RTC_SetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
 }
@@ -218,6 +225,8 @@ void RTC_Object::set_hour(RTC_Object &self, std::uint8_t hour)
     sTime.Seconds = self.second;
     sTime.Minutes = self.minute;
     sTime.Hours   = self.hour;
+    sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+    sTime.StoreOperation = RTC_STOREOPERATION_RESET;
 
     self.rtc_status = HAL_RTC_SetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
 }
