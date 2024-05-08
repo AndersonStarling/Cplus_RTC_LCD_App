@@ -16,6 +16,17 @@ RTC_Object::~RTC_Object()
 
 void RTC_Object::init(RTC_Object &self)
 {
+    RTC_TimeTypeDef sTime = {0};
+    RTC_DateTypeDef sDate = {0};
+    RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
+
+    PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
+    PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
+    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
     /* RTC clock enable */
     __HAL_RCC_RTC_ENABLE();
 
@@ -29,7 +40,18 @@ void RTC_Object::init(RTC_Object &self)
     self.hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
     self.rtc_status = HAL_RTC_Init(&self.hrtc);
 
-    
+    sTime.Hours = 0x20;
+    sTime.Minutes = 0x25;
+    sTime.Seconds = 0x18;
+    sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
+    sTime.StoreOperation = RTC_STOREOPERATION_RESET;
+    HAL_RTC_SetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
+
+    sDate.WeekDay = RTC_WEEKDAY_THURSDAY;
+    sDate.Month = RTC_MONTH_MAY;
+    sDate.Date = 0x2;
+    sDate.Year = 0x0;
+    HAL_RTC_SetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 }
 
 /* Day in year */
@@ -86,8 +108,8 @@ std::uint8_t RTC_Object::get_second(RTC_Object &self)
 
     while(HAL_OK != HAL_RTC_WaitForSynchro(&self.hrtc));
 
-    HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
     self.rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
+    HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 
     self.second = sTime.Seconds;
 
@@ -99,8 +121,8 @@ std::uint8_t RTC_Object::get_minute(RTC_Object &self)
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
 
-    HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
     self.rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
+    HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 
     self.minute = sTime.Minutes;
 
@@ -114,8 +136,8 @@ std::uint8_t RTC_Object::get_hour(RTC_Object &self)
 
     while(HAL_OK != HAL_RTC_WaitForSynchro(&self.hrtc));
 
-    HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
     self.rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
+    HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
 
     self.hour = sTime.Hours;
 
