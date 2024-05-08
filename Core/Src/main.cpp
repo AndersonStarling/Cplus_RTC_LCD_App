@@ -67,6 +67,7 @@ void SystemClock_Config(void);
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
     RTC_Object Rtc;
     LCD_Object LCD_16x2
@@ -107,11 +108,15 @@ int main(void)
     Rtc.set_year(Rtc, 23);
     Rtc.set_hour(Rtc, 8);
     Rtc.set_minute(Rtc, 0);
-    Rtc.set_minute(Rtc, 0);
+    Rtc.set_second(Rtc, 0);
+
+    Rtc.get_hour(Rtc);
+    Rtc.get_minute(Rtc);
+    Rtc.get_second(Rtc);
 
     LCD_16x2.print_string(LCD_16x2, (std::to_string(Rtc.get_day(Rtc)) + "/" + std::to_string(Rtc.get_month(Rtc)) + "/" + std::to_string(Rtc.get_year(Rtc))));
     LCD_16x2.print_string(LCD_16x2, "  ");
-    LCD_16x2.print_string(LCD_16x2, (std::to_string(Rtc.get_hour(Rtc)) + "/" + std::to_string(Rtc.get_minute(Rtc)) + "/" + std::to_string(Rtc.get_second(Rtc))));
+    LCD_16x2.print_string(LCD_16x2, (std::to_string(Rtc.get_hour(Rtc)) + ":" + std::to_string(Rtc.get_minute(Rtc)) + ":" + std::to_string(Rtc.get_second(Rtc))));
   /* USER CODE END 2 */
 
   /* Infinite loop */

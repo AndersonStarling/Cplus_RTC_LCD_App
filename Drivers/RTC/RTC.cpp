@@ -1,6 +1,7 @@
 #include <cstdint>
 #include "stm32f4xx.h"
 #include "stm32f4xx_hal_rtc.h"
+#include "rtc.h"
 #include "RTC.hpp"
 
 RTC_Object::RTC_Object(/* args */)
@@ -15,8 +16,8 @@ RTC_Object::~RTC_Object()
 
 void RTC_Object::init(RTC_Object &self)
 {
-    RTC_TimeTypeDef sTime = {0};
-    RTC_DateTypeDef sDate = {0};
+    /* RTC clock enable */
+    __HAL_RCC_RTC_ENABLE();
 
     /** Initialize RTC Only */
     self.hrtc.Instance = RTC;
@@ -27,6 +28,8 @@ void RTC_Object::init(RTC_Object &self)
     self.hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
     self.hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
     self.rtc_status = HAL_RTC_Init(&self.hrtc);
+
+    
 }
 
 /* Day in year */
@@ -83,11 +86,12 @@ std::uint8_t RTC_Object::get_second(RTC_Object &self)
 
     while(HAL_OK != HAL_RTC_WaitForSynchro(&self.hrtc));
 
-    self.rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
     HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
+    self.rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
 
     self.second = sTime.Seconds;
 
+    return self.second;
 }
 
 std::uint8_t RTC_Object::get_minute(RTC_Object &self)
@@ -95,11 +99,12 @@ std::uint8_t RTC_Object::get_minute(RTC_Object &self)
     RTC_TimeTypeDef sTime = {0};
     RTC_DateTypeDef sDate = {0};
 
-    self.rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
     HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
-    while(rtc_status != HAL_OK);
+    self.rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
 
     self.minute = sTime.Minutes;
+
+    return self.minute;
 }
 
 std::uint8_t RTC_Object::get_hour(RTC_Object &self)
@@ -109,11 +114,12 @@ std::uint8_t RTC_Object::get_hour(RTC_Object &self)
 
     while(HAL_OK != HAL_RTC_WaitForSynchro(&self.hrtc));
 
-    self.rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
     HAL_RTC_GetDate(&self.hrtc, &sDate, RTC_FORMAT_BCD);
-    while(rtc_status != HAL_OK);
+    self.rtc_status = HAL_RTC_GetTime(&self.hrtc, &sTime, RTC_FORMAT_BCD);
 
     self.hour = sTime.Hours;
+
+    return self.hour;
 }
 
 void RTC_Object::set_day(RTC_Object &self, std::uint8_t day)
