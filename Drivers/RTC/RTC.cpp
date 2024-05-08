@@ -146,7 +146,6 @@ std::uint8_t RTC_Object::get_hour(RTC_Object &self)
 
 void RTC_Object::set_day(RTC_Object &self, std::uint8_t day)
 {
-    HAL_StatusTypeDef rtc_status;
     RTC_DateTypeDef sDate = {0};
 
     self.day = day;
@@ -160,7 +159,6 @@ void RTC_Object::set_day(RTC_Object &self, std::uint8_t day)
 
 void RTC_Object::set_month(RTC_Object &self, std::uint8_t month)
 {
-    HAL_StatusTypeDef rtc_status;
     RTC_DateTypeDef sDate = {0};
 
     self.month = month;
@@ -174,7 +172,6 @@ void RTC_Object::set_month(RTC_Object &self, std::uint8_t month)
 
 void RTC_Object::set_year(RTC_Object &self, std::uint8_t year)
 {
-    HAL_StatusTypeDef rtc_status;
     RTC_DateTypeDef sDate = {0};
 
     self.year = year;
@@ -188,7 +185,6 @@ void RTC_Object::set_year(RTC_Object &self, std::uint8_t year)
 
 void RTC_Object::set_second(RTC_Object &self, std::uint8_t second)
 {
-    HAL_StatusTypeDef rtc_status;
     RTC_TimeTypeDef sTime;
 
     self.second = second;
@@ -203,7 +199,6 @@ void RTC_Object::set_second(RTC_Object &self, std::uint8_t second)
 
 void RTC_Object::set_minute(RTC_Object &self, std::uint8_t minute)
 {
-    HAL_StatusTypeDef rtc_status;
     RTC_TimeTypeDef sTime;
 
     self.minute = minute;
@@ -218,7 +213,6 @@ void RTC_Object::set_minute(RTC_Object &self, std::uint8_t minute)
 
 void RTC_Object::set_hour(RTC_Object &self, std::uint8_t hour)
 {
-    HAL_StatusTypeDef rtc_status;
     RTC_TimeTypeDef sTime;
 
     self.hour = hour;
