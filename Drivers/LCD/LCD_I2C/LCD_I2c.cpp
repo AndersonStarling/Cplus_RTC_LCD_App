@@ -7,7 +7,7 @@
 #include "LCD_I2c.hpp"
 
 /* LCD namespace */
-namespace LCD
+namespace LCD_I2C
 {
     /* LCD Pin */
     std::uint8_t constexpr PIN_0 = (1u << 0);
@@ -30,60 +30,60 @@ namespace LCD
 }
 
 /* Private method */
-bool LCD_Object::send_cmd(LCD_Object &self, std::uint8_t command)
+bool LCD_I2c_Object::send_cmd(std::uint8_t command)
 {
     std::uint8_t data_upper = 0;
     std::uint8_t data_lower = 0;
     std::uint8_t data_send[4] = {0};
 
     /* extract 4 upper bit from command */
-    data_upper = ((command & 0xF0) & (~LCD::RW));
+    data_upper = ((command & 0xF0) & (~LCD_I2C::RW));
     /*extract 4 lower bit from command */
-    data_lower = (((command << 4) & 0xF0) & (~LCD::RW));
+    data_lower = (((command << 4) & 0xF0) & (~LCD_I2C::RW));
 
     /* Send 4 upper bit command to lcd */
-    data_send[0] = data_upper | (LCD::BLK | LCD::E);
+    data_send[0] = data_upper | (LCD_I2C::BLK | LCD_I2C::E);
     /* Create dummy frame because LCD need delay between two intructions */
-    data_send[1] = data_upper | (LCD::BLK);
+    data_send[1] = data_upper | (LCD_I2C::BLK);
 
     /* Send 4 upper bit command to lcd */
-    data_send[2] = data_lower | (LCD::BLK | LCD::E);
+    data_send[2] = data_lower | (LCD_I2C::BLK | LCD_I2C::E);
     /* Create dummy frame because LCD need delay between two intructions */
-    data_send[3] = data_lower | (LCD::BLK);
+    data_send[3] = data_lower | (LCD_I2C::BLK);
 
-    self.i2c_status = HAL_I2C_Master_Transmit(&self.hi2c, ((self.lcd_i2c_address << 1) | 1), &data_send[0], 4, 0xffff);
+    this->i2c_status = HAL_I2C_Master_Transmit(&this->hi2c, ((this->lcd_i2c_address << 1) | 1), &data_send[0], 4, 0xffff);
 
-    return (self.i2c_status == HAL_OK);
+    return (this->i2c_status == HAL_OK);
 }
 
-bool LCD_Object::send_data(LCD_Object &self, std::uint8_t data)
+bool LCD_I2c_Object::send_data(std::uint8_t data)
 {
     std::uint8_t data_upper = 0;
     std::uint8_t data_lower = 0;
     std::uint8_t data_send[4] = {0};
 
     /* extract 4 upper bit from command */
-    data_upper = ((data & 0xF0) & (~LCD::RW));
+    data_upper = ((data & 0xF0) & (~LCD_I2C::RW));
     /*extract 4 lower bit from command */
-    data_lower = (((data << 4) & 0xF0) & (~LCD::RW));
+    data_lower = (((data << 4) & 0xF0) & (~LCD_I2C::RW));
 
     /* Send 4 upper bit command to lcd */
-    data_send[0] = data_upper | (LCD::BLK | LCD::E | LCD::RS);
+    data_send[0] = data_upper | (LCD_I2C::BLK | LCD_I2C::E | LCD_I2C::RS);
     /* Create dummy frame because LCD need delay between two intructions */
-    data_send[1] = data_upper | (LCD::BLK | LCD::RS);
+    data_send[1] = data_upper | (LCD_I2C::BLK | LCD_I2C::RS);
 
     /* Send 4 upper bit command to lcd */
-    data_send[2] = data_lower | (LCD::BLK | LCD::E | LCD::RS);
+    data_send[2] = data_lower | (LCD_I2C::BLK | LCD_I2C::E | LCD_I2C::RS);
     /* Create dummy frame because LCD need delay between two intructions */
-    data_send[3] = data_lower | (LCD::BLK | LCD::RS);
+    data_send[3] = data_lower | (LCD_I2C::BLK | LCD_I2C::RS);
 
-    self.i2c_status = HAL_I2C_Master_Transmit(&self.hi2c, ((self.lcd_i2c_address << 1) | 1), &data_send[0], 4, 0xffff);
+    this->i2c_status = HAL_I2C_Master_Transmit(&this->hi2c, ((this->lcd_i2c_address << 1) | 1), &data_send[0], 4, 0xffff);
 
-    return (self.i2c_status == HAL_OK);
+    return (this->i2c_status == HAL_OK);
 }
 
 /* Public method */
-LCD_Object::LCD_Object(HAL_StatusTypeDef i2c_status, bool lcd_status, I2C_HandleTypeDef hi2c, std::uint16_t lcd_i2c_address)
+LCD_I2c_Object::LCD_I2c_Object(HAL_StatusTypeDef i2c_status, bool lcd_status, I2C_HandleTypeDef hi2c, std::uint16_t lcd_i2c_address)
 {
     this->i2c_status = i2c_status;
     this->lcd_status = lcd_status;
@@ -91,7 +91,7 @@ LCD_Object::LCD_Object(HAL_StatusTypeDef i2c_status, bool lcd_status, I2C_Handle
     this->lcd_i2c_address = lcd_i2c_address;
 }
 
-LCD_Object::~LCD_Object()
+LCD_I2c_Object::~LCD_I2c_Object()
 {
     this->i2c_status = HAL_ERROR;
     this->lcd_status = false;
@@ -99,7 +99,7 @@ LCD_Object::~LCD_Object()
 }
 
 
-void LCD_Object::init(LCD_Object &self)
+void LCD_I2c_Object::init(void)
 {
     GPIO_InitTypeDef GPIO_InitStruct = {0};
 
@@ -119,46 +119,46 @@ void LCD_Object::init(LCD_Object &self)
     __HAL_RCC_I2C1_CLK_ENABLE();
 
     /* Init I2c */
-    self.hi2c.Instance = I2C1;
-    self.hi2c.Init.ClockSpeed = 100000;
-    self.hi2c.Init.DutyCycle = I2C_DUTYCYCLE_2;
-    self.hi2c.Init.OwnAddress1 = 0;
-    self.hi2c.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-    self.hi2c.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-    self.hi2c.Init.OwnAddress2 = 0;
-    self.hi2c.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-    self.hi2c.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-     self.i2c_status = HAL_I2C_Init(&self.hi2c);
+    this->hi2c.Instance = I2C1;
+    this->hi2c.Init.ClockSpeed = 100000;
+    this->hi2c.Init.DutyCycle = I2C_DUTYCYCLE_2;
+    this->hi2c.Init.OwnAddress1 = 0;
+    this->hi2c.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+    this->hi2c.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+    this->hi2c.Init.OwnAddress2 = 0;
+    this->hi2c.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+    this->hi2c.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+    this->i2c_status = HAL_I2C_Init(&this->hi2c);
 
     /* Init LCD */
     HAL_Delay(50);
-    self.lcd_status = LCD_Object::send_cmd(self, 0x30);
+    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x30);
     HAL_Delay(5);
-    self.lcd_status = LCD_Object::send_cmd(self, 0x30);
+    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x30);
     HAL_Delay(1);
-    self.lcd_status = LCD_Object::send_cmd(self, 0x30);
+    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x30);
     HAL_Delay(10);
-    self.lcd_status = LCD_Object::send_cmd(self, 0x20);
+    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x20);
     HAL_Delay(10);
-    self.lcd_status = LCD_Object::send_cmd(self, 0x28);
+    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x28);
     HAL_Delay(1);
-    self.lcd_status = LCD_Object::send_cmd(self, 0x08);
+    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x08);
     HAL_Delay(1);
-    self.lcd_status = LCD_Object::send_cmd(self, 0x01);
+    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x01);
     HAL_Delay(2);
-    self.lcd_status = LCD_Object::send_cmd(self, 0x06);
+    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x06);
     HAL_Delay(1);
-    self.lcd_status = LCD_Object::send_cmd(self, 0x0C);
+    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x0C);
 
 }
 
-void LCD_Object::print_string(LCD_Object &self, std::string string)
+void LCD_I2c_Object::print_string(std::string string)
 {
     std::uint32_t index = 0;
 
     for(index = 0; index < string.length(); index ++)
     {
-        self.lcd_status = LCD_Object::send_data(self, (std::uint8_t)string[index]);
+        this->lcd_status = LCD_I2c_Object::send_data(self, (std::uint8_t)string[index]);
     }
 }
 
