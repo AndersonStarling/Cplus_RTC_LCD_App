@@ -70,7 +70,7 @@ int main(void)
 
   /* USER CODE BEGIN 1 */
     RTC_Object Rtc;
-    LCD_Object LCD_16x2
+    LCD_I2c_Object LCD_16x2
     {
         HAL_ERROR,
         false,
@@ -100,7 +100,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
     Rtc.init(Rtc);
-    LCD_16x2.init(LCD_16x2);
+    LCD_16x2.init();
 
     /* Set dd/mm/yy */
     Rtc.set_day(Rtc, 7);
@@ -110,9 +110,9 @@ int main(void)
     Rtc.set_minute(Rtc, 0);
     Rtc.set_second(Rtc, 0);
 
-	LCD_16x2.print_string(LCD_16x2, (std::to_string(Rtc.get_day(Rtc)) + "/" + std::to_string(Rtc.get_month(Rtc)) + "/" + std::to_string(Rtc.get_year(Rtc))));
-	LCD_16x2.print_string(LCD_16x2, "  ");
-	LCD_16x2.print_string(LCD_16x2, (std::to_string(Rtc.get_hour(Rtc)) + ":" + std::to_string(Rtc.get_minute(Rtc)) + ":" + std::to_string(Rtc.get_second(Rtc))));
+	LCD_16x2.print_string((std::to_string(Rtc.get_day(Rtc)) + "/" + std::to_string(Rtc.get_month(Rtc)) + "/" + std::to_string(Rtc.get_year(Rtc))));
+	LCD_16x2.print_string("  ");
+	LCD_16x2.print_string((std::to_string(Rtc.get_hour(Rtc)) + ":" + std::to_string(Rtc.get_minute(Rtc)) + ":" + std::to_string(Rtc.get_second(Rtc))));
 
   /* USER CODE END 2 */
 

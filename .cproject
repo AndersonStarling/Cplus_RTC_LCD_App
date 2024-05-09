@@ -70,6 +70,7 @@
 									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include"/>
 									<listOptionValue builtIn="false" value="../Drivers/RTC"/>
 									<listOptionValue builtIn="false" value="../Drivers/LCD"/>
+									<listOptionValue builtIn="false" value="../Drivers/LCD/LCD_I2C"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.input.cpp.338539844" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.input.cpp"/>
 							</tool>

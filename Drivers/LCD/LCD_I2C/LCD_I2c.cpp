@@ -132,23 +132,23 @@ void LCD_I2c_Object::init(void)
 
     /* Init LCD */
     HAL_Delay(50);
-    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x30);
+    this->lcd_status = LCD_I2c_Object::send_cmd(0x30);
     HAL_Delay(5);
-    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x30);
+    this->lcd_status = LCD_I2c_Object::send_cmd(0x30);
     HAL_Delay(1);
-    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x30);
+    this->lcd_status = LCD_I2c_Object::send_cmd(0x30);
     HAL_Delay(10);
-    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x20);
+    this->lcd_status = LCD_I2c_Object::send_cmd(0x20);
     HAL_Delay(10);
-    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x28);
+    this->lcd_status = LCD_I2c_Object::send_cmd(0x28);
     HAL_Delay(1);
-    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x08);
+    this->lcd_status = LCD_I2c_Object::send_cmd(0x08);
     HAL_Delay(1);
-    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x01);
+    this->lcd_status = LCD_I2c_Object::send_cmd(0x01);
     HAL_Delay(2);
-    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x06);
+    this->lcd_status = LCD_I2c_Object::send_cmd(0x06);
     HAL_Delay(1);
-    this->lcd_status = LCD_I2c_Object::send_cmd(self, 0x0C);
+    this->lcd_status = LCD_I2c_Object::send_cmd(0x0C);
 
 }
 
@@ -158,7 +158,7 @@ void LCD_I2c_Object::print_string(std::string string)
 
     for(index = 0; index < string.length(); index ++)
     {
-        this->lcd_status = LCD_I2c_Object::send_data(self, (std::uint8_t)string[index]);
+        this->lcd_status = LCD_I2c_Object::send_data((std::uint8_t)string[index]);
     }
 }
 
