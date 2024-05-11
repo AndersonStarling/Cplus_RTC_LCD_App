@@ -91,6 +91,11 @@ LCD_I2c_Object::LCD_I2c_Object(HAL_StatusTypeDef i2c_status, bool lcd_status, I2
     this->lcd_i2c_address = lcd_i2c_address;
 }
 
+LCD_I2c_Object::LCD_I2c_Object()
+{
+    
+}
+
 LCD_I2c_Object::~LCD_I2c_Object()
 {
     this->i2c_status = HAL_ERROR;

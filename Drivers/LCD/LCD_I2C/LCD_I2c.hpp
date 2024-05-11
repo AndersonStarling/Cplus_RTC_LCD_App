@@ -10,6 +10,7 @@ class LCD_I2c_Object
         bool send_data(std::uint8_t data);
 
     public:
+        LCD_I2c_Object();
         LCD_I2c_Object(HAL_StatusTypeDef i2c_status, bool lcd_status, I2C_HandleTypeDef hi2c, std::uint16_t lcd_i2c_address);
         ~LCD_I2c_Object();
         void init(void);

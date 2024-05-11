@@ -7,15 +7,16 @@
 #include "LCD_I2c.hpp"
 #include "LCD.hpp"
 
-void LCD::init(void)
+LCD::LCD()
 {
-    while(1);
+
 }
 
-void LCD::print(std::string string)
+LCD::~LCD()
 {
-    while(1);
+    
 }
+
 
 
 
