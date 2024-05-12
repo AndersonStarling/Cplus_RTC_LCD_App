@@ -25,6 +25,7 @@
 #include <string>
 #include "i2c.h"
 #include "RTC.hpp"
+#include "LCD_Types.hpp"
 #include "LCD_I2c.hpp"
 #include "LCD.hpp"
 
@@ -66,22 +67,23 @@ void SystemClock_Config(void);
   * @brief  The application entry point.
   * @retval int
   */
-LCD_I2c_Object LCD_I2c
-{
-    HAL_ERROR,
-    false,
-    hi2c1,
-    0x27
-};
-
 int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-    LCD * LCD_Common;
-    RTC_Object Rtc;
+     LCD_I2c_Object LCD_I2c
+     {
+         HAL_ERROR,
+         false,
+         hi2c1,
+         0x27
+     };
 
-    LCD_Common = (LCD *)(&LCD_I2c);
+     RTC_Object Rtc;
+
+     LCD * LCD_Common;
+
+     LCD_Common = static_cast<LCD *>(&LCD_I2c);
 
   /* USER CODE END 1 */
 
@@ -104,20 +106,20 @@ int main(void)
   /* Initialize all configured peripherals */
   /* USER CODE BEGIN 2 */
 
-    Rtc.init(Rtc);
-    LCD_Common->init();
+     Rtc.init(Rtc);
+     LCD_Common->init();
 
-    /* Set dd/mm/yy */
-    Rtc.set_day(Rtc, 7);
-    Rtc.set_month(Rtc, 5);
-    Rtc.set_year(Rtc, 23);
-    Rtc.set_hour(Rtc, 8);
-    Rtc.set_minute(Rtc, 0);
-    Rtc.set_second(Rtc, 0);
+     /* Set dd/mm/yy */
+     Rtc.set_day(Rtc, 7);
+     Rtc.set_month(Rtc, 5);
+     Rtc.set_year(Rtc, 23);
+     Rtc.set_hour(Rtc, 8);
+     Rtc.set_minute(Rtc, 0);
+     Rtc.set_second(Rtc, 0);
 
-	  LCD_Common->print_string((std::to_string(Rtc.get_day(Rtc)) + "/" + std::to_string(Rtc.get_month(Rtc)) + "/" + std::to_string(Rtc.get_year(Rtc))));
-	  LCD_Common->print_string("  ");
-	  LCD_Common->print_string((std::to_string(Rtc.get_hour(Rtc)) + ":" + std::to_string(Rtc.get_minute(Rtc)) + ":" + std::to_string(Rtc.get_second(Rtc))));
+	 LCD_Common->print_string((std::to_string(Rtc.get_day(Rtc)) + "/" + std::to_string(Rtc.get_month(Rtc)) + "/" + std::to_string(Rtc.get_year(Rtc))));
+	 LCD_Common->print_string("  ");
+	 LCD_Common->print_string((std::to_string(Rtc.get_hour(Rtc)) + ":" + std::to_string(Rtc.get_minute(Rtc)) + ":" + std::to_string(Rtc.get_second(Rtc))));
 
   /* USER CODE END 2 */
 

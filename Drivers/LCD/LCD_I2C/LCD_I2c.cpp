@@ -4,6 +4,7 @@
 #include "stm32f4xx_hal.h"
 #include "stm32f4xx_hal_gpio.h"
 #include "stm32f4xx_hal_i2c.h"
+#include "LCD_Types.hpp"
 #include "LCD_I2c.hpp"
 
 /* LCD namespace */
@@ -165,6 +166,11 @@ void LCD_I2c_Object::print_string(std::string string)
     {
         this->lcd_status = LCD_I2c_Object::send_data((std::uint8_t)string[index]);
     }
+}
+
+LCD_TYPES::LCD_Types_enum_t LCD_I2c_Object::get_lcd_type(void)
+{
+    return LCD_TYPES::LCD_I2C;
 }
 
 
