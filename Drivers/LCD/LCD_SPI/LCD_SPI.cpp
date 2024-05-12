@@ -19,9 +19,25 @@ bool LCD_Spi_Object::send_data(std::uint8_t data)
 }
 
 /* Public method */
-void LCD_Spi_Object::init(void)
+LCD_Spi_Object::LCD_Spi_Object()
 {
 
+}
+
+LCD_Spi_Object::LCD_Spi_Object(std::uint8_t data_1, std::uint8_t data_2)
+{
+    this->data_1 = data_1;
+    this->data_2 = data_2;
+}
+
+LCD_Spi_Object::~LCD_Spi_Object()
+{
+
+}
+
+void LCD_Spi_Object::init(void)
+{
+    this->data_2 = this->data_1 = data_1 + 100;
 }
 
 void LCD_Spi_Object::print_string(std::string string)
@@ -29,7 +45,7 @@ void LCD_Spi_Object::print_string(std::string string)
 
 }
 
-LCD_TYPES::LCD_Types_enum_t get_lcd_type(void)
+LCD_TYPES::LCD_Types_enum_t LCD_Spi_Object::get_lcd_type(void)
 {
     return LCD_TYPES::LCD_SPI;
 }

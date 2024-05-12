@@ -1,4 +1,4 @@
-class LCD : public LCD_I2c_Object
+class LCD : public LCD_I2c_Object, public LCD_Spi_Object
 {
     public:
         LCD();

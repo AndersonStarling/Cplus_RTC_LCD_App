@@ -6,6 +6,7 @@
 #include "stm32f4xx_hal_i2c.h"
 #include "LCD_Types.hpp"
 #include "LCD_I2c.hpp"
+#include "LCD_Spi.hpp"
 #include "LCD.hpp"
 
 LCD::LCD()

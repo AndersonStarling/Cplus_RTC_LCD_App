@@ -15,7 +15,7 @@ class LCD_I2c_Object
         ~LCD_I2c_Object();
         virtual void init(void);
         virtual void print_string(std::string string);
-        LCD_TYPES::LCD_Types_enum_t get_lcd_type(void);
+        virtual LCD_TYPES::LCD_Types_enum_t get_lcd_type(void);
 };
 
 
