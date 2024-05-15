@@ -80,11 +80,7 @@ int main(void)
         0x27
     };
 
-    LCD_Spi_Object LCD_Spi
-    {
-        1,
-        2
-    };
+    LCD_Spi_Object LCD_Spi;
 
     RTC_Object Rtc;
     LCD * LCD_Common;
@@ -114,6 +110,7 @@ int main(void)
 
     /* Init LCD I2c */
     LCD_Common = reinterpret_cast<LCD *>(&LCD_I2c);
+
     LCD_Common->init();
     LCD_Common->get_lcd_type();
 
