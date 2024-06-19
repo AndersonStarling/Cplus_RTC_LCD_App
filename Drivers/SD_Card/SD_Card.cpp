@@ -23,7 +23,7 @@ void SD_Object::write(std::uint32_t address, std::uint8_t * data, std::uint32_t 
     std::uint32_t BlockAdd = 0;
     std::uint32_t NumberOfBlocks = 0;
 
-    if(address % 512 == 0)
+    if(address % BLOCKSIZE == 0)
     {
         NumberOfBlocks = (length / BLOCKSIZE) + 1;
         BlockAdd = address / BLOCKSIZE;
